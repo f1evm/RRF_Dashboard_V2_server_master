@@ -4,7 +4,7 @@ const { SALONS, SRVRNR, REMOTES } = require('../../config')
 const SvxlinkParser = require('./parser')
 const EventEmitter = require('events');
 const fetch = require("node-fetch");
-const EventSource = require('eventsource');
+
 
 /* Liste des événements */
 const EVENTS = [
@@ -20,23 +20,17 @@ var sse = new SSE();
 
 var eventEmitter = new EventEmitter();
 fsm = new Fsm(eventEmitter);
-//console.log("sse 1 : ",fsm);
 
 fsmr = (salon) => {
 	var st = fsm;
-	var tx = st.transmitters[salon.name] ? st.transmitters[salon.name][2] : '';
-//	console.log(tx);
-
-	var str = {nodes:[], transmitter:tx};
+	var str = {nodes:[], transmitter: st.transmitter};
 	st.nodes.map(nd => {
 		[,sln,name] = nd;
 		if (sln === salon) str.nodes.push(name);
 	})
-
 	return str;
 }
 
-/*
 Fetch = (url) => {
 	fetch(url)
 	.then(response => response.json())
@@ -50,26 +44,26 @@ Fetch = (url) => {
 	})
 
 }
-*/
+
 
 
 EVENTS.forEach( event => {
 	eventEmitter.on(event, data => {
 		sse.send(data || [], event)
+		//console.log('### ', sln.name, '::>',event, data)
 	})
 })
 
 SALONS.forEach(sln => {
 	if (sln.file && (sln.file !== '')) {
 		parsers[sln.name] = new SvxlinkParser(eventEmitter,sln.file, SRVRNR, sln.name);
-	}
+	} 
 })
+
 
 REMOTES.forEach(rmt => {
 	sser[rmt.name] = new EventSource(rmt.host + '/realtime');
-	//Fetch(rmt.host + '/nodes')
-	fetch(rmt.host + '/nodes')
-	.then(response => response.json())
+	Fetch(rmt.host + '/nodes')
 	.then (data => {
 		data.nodes.map(nd => {
 			eventEmitter.emit('ReflectorLogic.loginOk', nd);
@@ -79,17 +73,17 @@ REMOTES.forEach(rmt => {
 		console.log(err, 'Erreur Fetching remote ', rmt.name);
 	})
 
-	sser[rmt.name].addEventListener('ReflectorLogic.loginOk', evt => {
-		eventEmitter.emit ('ReflectorLogic.loginOk', JSON.parse(evt.data));
+	sser[rmt.name].addEventListener('ReflectorLogic.loginOK', evt => {
+		eventEmitter.emit ('ReflectorLogic.loginOK', evt.data);
 	})
 	sser[rmt.name].addEventListener('ReflectorLogic.disconnected', evt => {
-		eventEmitter.emit ('ReflectorLogic.disconnected', JSON.parse(evt.data));
+		eventEmitter.emit ('ReflectorLogic.disconnected', evt.data);
 	})
 	sser[rmt.name].addEventListener('ReflectorLogic.talkerStart', evt => {
-		eventEmitter.emit ('ReflectorLogic.talkerStart', JSON.parse(evt.data));
+		eventEmitter.emit ('ReflectorLogic.talkerStart', evt.data);
 	})
 	sser[rmt.name].addEventListener('ReflectorLogic.talkerStop', evt => {
-		eventEmitter.emit ('ReflectorLogic.talkerStop', JSON.parse(evt.data));
+		eventEmitter.emit ('ReflectorLogic.talkerStop', evt.data);
 	})
 })
 
