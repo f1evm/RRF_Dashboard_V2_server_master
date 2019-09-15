@@ -25,7 +25,7 @@ const REMOTES = [
     srvNum: 3,
     srvName: "RRF3",
     host: "http://rrf3.f5nlg.ovh:4443"
-}
+  }
 ]
 
 module.exports.PORT=PORT;

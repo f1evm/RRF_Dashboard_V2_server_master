@@ -3,15 +3,15 @@ const { SRVRNR, EXCLUSIONS } = require('../../config');
 
 
 const isExcluded = (name, server, salon) => {
-	console.log(name, server, salon)
+	//console.log(name, server, salon)
 	if (server === SRVRNR){
 		const excl = EXCLUSIONS[salon];
 		if (excl.includes(name)){
-			console.log("true")
+	//		console.log("true")
 			return true
 		}
 	}
-	console.log("false")
+	//console.log("false")
 	return false
 }
 
@@ -44,22 +44,16 @@ class SvxlinkParser {
 				}
 			} else if (log[2] && (log[2].startsWith("Talker start"))) {
 				name = log[1];
-				if (isExcluded(name, server,salon)){
-					event =  null
-				} else {
 					event = "talkerStart"
-				}
-				//event = "talkerStart";
 			} else if (log[2] && (log[2].startsWith("Talker stop"))) {
 				name = log[1];
-				if (isExcluded(name, server,salon)){
-					event =  null
-				} else {
-					event = "talkerStop"
-				}
-				//event = "talkerStop";
+				event = "talkerStop"
 			}
 
+			if (isExcluded(name, server,salon)){
+				event =  null
+			}
+			
 			if ( event !== null){
 				if (event === "loginOk"){
 					var args = [server, salon, name, IP];
