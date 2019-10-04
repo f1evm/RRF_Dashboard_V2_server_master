@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "better-sqlite3": "^5.4.3",
     "cors": "^2.8.5",
     "eventsource": "^1.0.7",
     "express": "^4.16.4",
@@ -22,7 +23,6 @@
     "node-fetch": "^2.6.0",
     "request": "^2.88.0",
     "slice-file": "^1.0.0",
-    "sqlite3": "^4.1.0",
     "tail": "^2.0.2"
   },
   "devDependencies": {

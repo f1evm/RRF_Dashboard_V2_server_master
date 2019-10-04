@@ -30,12 +30,16 @@ server.get('/salons', (req, res) => {
 })
 
 // API nodes database
+server.get('/db/node/:name', (req,res) => {
+  const row = db.prepare('SELECT * FROM nodes WHERE name = ?');
+  res.status(200).send(row.get(req.params.name));
+})
+
 server.get('/db/nodes', (req,res) => {
   const rows = db.prepare('SELECT * FROM nodes').all();
-  console.log(rows.length);
-    
-    res.status(200).send(rows);
+  res.status(200).send(rows);
   } )
+
 
 // console.log that your server is up and running
 server.listen(port, () => console.log(`Listening on port ${port}`));
