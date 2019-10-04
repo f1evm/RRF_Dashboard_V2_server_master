@@ -12,7 +12,7 @@ const SRVRNAME = "RRF1"   // Server Name
 
 const SALONS = [
   {name: "RRF", 
-      file: "./logs/RRF1/svxreflector.log"
+      file: "/tmp/svxreflector.log"
   }
 ];
 

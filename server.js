@@ -9,8 +9,7 @@ const port = process.env.PORT || require('./config').PORT;
 var cors = require('cors');
 var server = express();
 
-var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database('./db/RRF.db3');
+const db = require('better-sqlite3')('./db/RRF.db3');
 
 //server.use(express.static('client/build'));
 
@@ -32,12 +31,11 @@ server.get('/salons', (req, res) => {
 
 // API nodes database
 server.get('/db/nodes', (req,res) => {
-  const stmt = db.prepare('SELECT * FROM nodes');
-  const nds = stmt.all();
-   
-  console.log(nds.length); 
-  res.status(200).send(nds);
-} )
+  const rows = db.prepare('SELECT * FROM nodes').all();
+  console.log(rows.length);
+    
+    res.status(200).send(rows);
+  } )
 
 // console.log that your server is up and running
 server.listen(port, () => console.log(`Listening on port ${port}`));
