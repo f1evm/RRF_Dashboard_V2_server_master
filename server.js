@@ -31,8 +31,8 @@ server.get('/salons', (req, res) => {
 
 // API nodes database
 server.get('/db/node/:name', (req,res) => {
-  const row = db.prepare('SELECT * FROM nodes WHERE name = ?');
-  res.status(200).send(row.get(req.params.name));
+  const row = db.prepare('SELECT * FROM nodes WHERE name = ?').get(req.params.name);
+  res.status(200).send(row);
 })
 
 server.get('/db/nodes', (req,res) => {
