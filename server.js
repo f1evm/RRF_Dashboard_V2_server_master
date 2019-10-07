@@ -9,7 +9,7 @@ const port = process.env.PORT || require('./config').PORT;
 var cors = require('cors');
 var server = express();
 
-const db = require('better-sqlite3')('./db/RRF.db3');
+const nodeRoutes = require('./routes/node');
 
 //server.use(express.static('client/build'));
 
@@ -30,37 +30,8 @@ server.get('/salons', (req, res) => {
 })
 
 // API nodes database
-server.get('/db/node/:name', (req,res) => {
-  const row = db.prepare('SELECT * FROM nodes WHERE name = ?').get(req.params.name);
-  res.status(200).send(row);
-})
+server.use('/db/node',nodeRoutes);
 
-server.get('/db/nodes', (req,res) => {
-  const rows = db.prepare('SELECT * FROM nodes').all();
-  res.status(200).send(rows);
-  } )
-
-  server.post('/db/node', (req,res) => {
-    const node = {
-        name: req.body.name,
-        description: req.body.description,
-        lat: req.body.lat,
-        lon: req.body.lon,
-        sysop: req.body.sysop
-      };
-    const sql = 'INSERT INTO nodes (name, description, lat, lon,sysop) VALUES (...node)';
-    db.run(sql, function (err, result) {
-      if (err){
-          res.status(400).json({"error": err.message})
-          return;
-      }
-      res.json({
-          "message": "success",
-          "data": node,
-          "id" : this.lastID
-      })
-    });
-  })
 
 // console.log that your server is up and running
 server.listen(port, () => console.log(`Listening on port ${port}`));
