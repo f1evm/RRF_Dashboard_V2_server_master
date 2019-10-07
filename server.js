@@ -40,6 +40,27 @@ server.get('/db/nodes', (req,res) => {
   res.status(200).send(rows);
   } )
 
+  server.post('/db/node', (req,res) => {
+    const node = {
+        name: req.body.name,
+        description: req.body.description,
+        lat: req.body.lat,
+        lon: req.body.lon,
+        sysop: req.body.sysop
+      };
+    const sql = 'INSERT INTO nodes (name, description, lat, lon,sysop) VALUES (...node)';
+    db.run(sql, function (err, result) {
+      if (err){
+          res.status(400).json({"error": err.message})
+          return;
+      }
+      res.json({
+          "message": "success",
+          "data": node,
+          "id" : this.lastID
+      })
+    });
+  })
 
 // console.log that your server is up and running
 server.listen(port, () => console.log(`Listening on port ${port}`));
