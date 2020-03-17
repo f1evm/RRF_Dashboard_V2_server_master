@@ -2,10 +2,10 @@
 
 /* Serveur */
 
-const PORT = 4440;        // Port Number
+const PORT = 4440;        // Numéro de Port
 const PROTOCOL = "http";  // Http, https protocols
-const SRVRNR = 1;         // Server Number
-const SRVRNAME = "RRF1"   // Server Name
+const SRVRNR = 1;         // Numéro de Serveur
+const SRVRNAME = "srvrname"   // Nom du Server
 
 
 /* Liste et paramètres des salons hébergés sur ce serveur */
@@ -22,9 +22,10 @@ const EXCLUSIONS = {"RRF": ["RRF"]}
 
 const REMOTES = [
   {
-    srvNum: 3,
+    /*srvNum: 3,
     srvName: "RRF3",
     host: "http://rrf3.f5nlg.ovh:4443"
+    */
   }
 ]
 
