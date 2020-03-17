@@ -2,7 +2,7 @@
 
 /* Serveur */
 
-const PORT = 4440;        // Numéro de Port
+const PORT = 4441;        // Numéro de Port
 const PROTOCOL = "http";  // Http, https protocols
 const SRVRNR = 1;         // Numéro de Serveur
 const SRVRNAME = "srvrname"   // Nom du Server

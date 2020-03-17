@@ -9,7 +9,6 @@ const port = process.env.PORT || require('./config').PORT;
 var cors = require('cors');
 var server = express();
 
-const nodeRoutes = require('./routes/node');
 
 //server.use(express.static('client/build'));
 
@@ -29,8 +28,6 @@ server.get('/salons', (req, res) => {
   res.json({salons: salons})
 })
 
-// API nodes database
-server.use('/db/node',nodeRoutes);
 
 
 // console.log that your server is up and running
