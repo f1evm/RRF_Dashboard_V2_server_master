@@ -1,5 +1,5 @@
 {
-  "name": "dashboardrrf_remote_server",
+  "name": "svxr_server_api",
   "version": "2.0.0",
   "description": "",
   "main": "server.js",
